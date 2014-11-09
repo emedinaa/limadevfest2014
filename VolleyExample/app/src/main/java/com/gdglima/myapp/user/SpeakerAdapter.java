@@ -47,7 +47,8 @@ public class SpeakerAdapter extends ArrayAdapter<SpeakerEntity> {
         SpeakerEntity entry = data.get(position);
         if(entry != null)
         {
-            Bitmap bm= BitmapFactory.decodeResource(context.getResources(), entry.getImg());
+            //Bitmap bm= BitmapFactory.decodeResource(context.getResources(), entry.getImg());
+            Bitmap bm= BitmapFactory.decodeResource(context.getResources(), R.drawable.default_user);
             Bitmap aux= ImageUtils.getCircularBitmap(bm);
 
             ViewHolder holder = (ViewHolder)v.getTag();
