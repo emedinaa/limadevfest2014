@@ -8,7 +8,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/lviSpeaker"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:animateLayoutChanges="true"
+        android:layout_marginTop="60dp"/>
 
     <RelativeLayout
         android:id="@+id/rlayLoading"
@@ -22,4 +24,25 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/butAdd"
+            android:background="@drawable/icon_add"
+            android:layout_marginRight="20dp"/>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_refresh"
+            android:id="@+id/butRefresh" />
+    </LinearLayout>
 </FrameLayout>

@@ -7,13 +7,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.gdglima.myapp.user.SpeakerAddFragment;
 import com.gdglima.myapp.user.SpeakerListFragment;
 
 
-public class HomeActivity extends FragmentActivity {
+public class HomeActivity extends FragmentActivity implements  OnFragmentInteractionListener{
 
 
     private SpeakerListFragment fragment=new SpeakerListFragment();
+    private SpeakerAddFragment fragmentAdd=new SpeakerAddFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,5 +50,15 @@ public class HomeActivity extends FragmentActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void gotoAddSpeaker() {
+        changeFragment(fragmentAdd);
+    }
+
+    @Override
+    public void gotoListSpeaker() {
+        changeFragment(fragment);
     }
 }

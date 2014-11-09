@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
@@ -26,10 +27,10 @@ import com.gdglima.myapp.entity.SpeakerResponseEntity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,15 +38,16 @@ import java.util.Map;
 /**
  * Created by @eduardomedina on 23/08/2014.
  */
-public class SpeakerListFragment extends Fragment
+public class SpeakerAddFragment extends Fragment
 {
 
-    private ListView lviSpeaker;
     private View rlayLoading;
     private RequestQueue queue;
-    private List<SpeakerEntity> dataSpeaker;
-    private Button butRefresh, butAdd;
+    private View butAddSpeaker;
+    private EditText eTxtName,eTxtSkill;
+    private SpeakerEntity entity;
     private OnFragmentInteractionListener mListener;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,7 @@ public class SpeakerListFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_speaker, null);
+        View view = inflater.inflate(R.layout.fragment_add_speaker, null);
 
         return view;
     }
@@ -62,67 +64,66 @@ public class SpeakerListFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        lviSpeaker= (ListView)getView().findViewById(R.id.lviSpeaker);
+        butAddSpeaker= getView().findViewById(R.id.butAddSpeaker);
+        eTxtName= (EditText)getView().findViewById(R.id.eTxtName);
+        eTxtSkill= (EditText)getView().findViewById(R.id.eTxtSkill);
         rlayLoading= getView().findViewById(R.id.rlayLoading);
         rlayLoading.setVisibility(View.GONE);
-        butRefresh = (Button)getView().findViewById(R.id.butRefresh);
-        butAdd = (Button)getView().findViewById(R.id.butAdd);
-        /*SpeakerEntity[] data = new SpeakerEntity[]{
-                new SpeakerEntity(100, "Eduardo Medina Alfaro", "Android",R.drawable.eduardo),
-                new SpeakerEntity(101, "Carlos Piñan", "Android, Games",R.drawable.pinian),
-                new SpeakerEntity(102, "Hansy Schmitt", "Android,Cloud",R.drawable.hansy),
-                new SpeakerEntity(102, "Milton Rodriguez", "Cloud, Web",R.drawable.default_user)
-        };
 
-        SpeakerAdapter adapter = new SpeakerAdapter(getActivity(), R.layout.row_speaker, Arrays.asList(data));
-        lviSpeaker.setAdapter(adapter);*/
-        butAdd.setOnClickListener(new View.OnClickListener() {
+        butAddSpeaker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    mListener.gotoAddSpeaker();
+                    validateAddSpeaker();
             }
         });
-        butRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadData();
-            }
-        });
-        loadData();
     }
 
-    private void loadData() {
+    private void validateAddSpeaker() {
+
+        addSpeaker();
+    }
+    private JSONObject toJSONObject(Object obj)
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writer();
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(mapper.writeValueAsString(obj));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+    private void addSpeaker()
+    {
         rlayLoading.setVisibility(View.VISIBLE);
-        dataSpeaker= new ArrayList<SpeakerEntity>();
         queue = Volley.newRequestQueue(getActivity());
 
         String url = getString(R.string.url_speaker_get);
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                url, null,
+        SpeakerEntity request= new SpeakerEntity();
+        request.setName(eTxtName.getText().toString().trim());
+        request.setSkills(eTxtSkill.getText().toString().trim());
+        JSONObject params= toJSONObject(request);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, params,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.i("Speaker", response.toString());
-                        GsonBuilder builder = new GsonBuilder();
-                        Gson gson = builder.create();
-                        SpeakerResponseEntity objects = gson.fromJson(response.toString(), SpeakerResponseEntity.class);
-
-                        dataSpeaker= objects.getResults();
-                        populateSpeaker();
-
+                        Log.i("HomeActivity","add response "+ response.toString());
                         rlayLoading.setVisibility(View.GONE);
 
+                        mListener.gotoListSpeaker();
+
                     }
-
-
-                }, new Response.ErrorListener() {
+                }, new Response.ErrorListener()
+        {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i("Speaker", "Error: " + error.getMessage());
+                Log.i("HomeActivity", "add Error: " + error.getMessage());
                 // hide the progress dialog
-
                 rlayLoading.setVisibility(View.GONE);
 
             }
@@ -130,21 +131,14 @@ public class SpeakerListFragment extends Fragment
         {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("X-Parse-Application-Id", "tNqFLFOkpUgFplAxTtpgqVvA7d403iam34asQ4RY");
-                params.put("X-Parse-REST-API-Key", "9ntv9ynsj0QEal8oF2KT6tqV4StjtGK3fcq13QPL");
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("X-Parse-Application-Id", getString(R.string.application_id));
+                params.put("X-Parse-REST-API-Key", getString(R.string.rest_api_key));
 
                 return params;
             }
         };
         queue.add(jsonObjReq);
-
-    }
-
-    private void populateSpeaker()
-    {
-        SpeakerAdapter adapter = new SpeakerAdapter(getActivity(), R.layout.row_speaker, dataSpeaker);
-        lviSpeaker.setAdapter(adapter);
     }
 
     @Override
@@ -163,4 +157,5 @@ public class SpeakerListFragment extends Fragment
         super.onDetach();
         mListener = null;
     }
+
 }
