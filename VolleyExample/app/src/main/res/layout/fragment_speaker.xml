@@ -9,7 +9,6 @@
         android:layout_height="fill_parent"
         android:id="@+id/lviSpeaker"
         android:layout_gravity="center_horizontal"
-        android:animateLayoutChanges="true"
         android:layout_marginTop="60dp"/>
 
     <RelativeLayout
@@ -29,7 +28,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top">
+        android:layout_gravity="top"
+        android:background="@color/bluesky2">
 
         <Button
             android:layout_width="wrap_content"
