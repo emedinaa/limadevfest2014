@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,7 +12,7 @@ import com.gdglima.myapp.user.SpeakerAddFragment;
 import com.gdglima.myapp.user.SpeakerListFragment;
 
 
-public class HomeActivity extends FragmentActivity implements  OnFragmentInteractionListener{
+public class HomeActivity extends ActionBarActivity implements  OnFragmentInteractionListener{
 
 
     private SpeakerListFragment fragment=new SpeakerListFragment();

@@ -66,6 +66,7 @@
         android:id="@+id/rlayLoading"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@color/black_progress"
         android:visibility="gone">
 
         <ProgressBar
