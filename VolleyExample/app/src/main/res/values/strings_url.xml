@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="application_id">xxxxxx</string>
-    <string name="rest_api_key">xxxxxx</string>
+    <string name="application_id">XXXXXX</string>
+    <string name="rest_api_key">XXXXXX</string>
     <string name="url_speaker_get">https://api.parse.com/1/classes/Speaker</string>
 </resources>

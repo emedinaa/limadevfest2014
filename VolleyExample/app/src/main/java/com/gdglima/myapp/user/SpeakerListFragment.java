@@ -67,15 +67,7 @@ public class SpeakerListFragment extends Fragment
         rlayLoading.setVisibility(View.GONE);
         butRefresh = (Button)getView().findViewById(R.id.butRefresh);
         butAdd = (Button)getView().findViewById(R.id.butAdd);
-        /*SpeakerEntity[] data = new SpeakerEntity[]{
-                new SpeakerEntity(100, "Eduardo Medina Alfaro", "Android",R.drawable.eduardo),
-                new SpeakerEntity(101, "Carlos Piñan", "Android, Games",R.drawable.pinian),
-                new SpeakerEntity(102, "Hansy Schmitt", "Android,Cloud",R.drawable.hansy),
-                new SpeakerEntity(102, "Milton Rodriguez", "Cloud, Web",R.drawable.default_user)
-        };
 
-        SpeakerAdapter adapter = new SpeakerAdapter(getActivity(), R.layout.row_speaker, Arrays.asList(data));
-        lviSpeaker.setAdapter(adapter);*/
         butAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,8 +123,8 @@ public class SpeakerListFragment extends Fragment
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("X-Parse-Application-Id", "tNqFLFOkpUgFplAxTtpgqVvA7d403iam34asQ4RY");
-                params.put("X-Parse-REST-API-Key", "9ntv9ynsj0QEal8oF2KT6tqV4StjtGK3fcq13QPL");
+                params.put("X-Parse-Application-Id", getString(R.string.application_id));
+                params.put("X-Parse-REST-API-Key", getString(R.string.rest_api_key));
 
                 return params;
             }

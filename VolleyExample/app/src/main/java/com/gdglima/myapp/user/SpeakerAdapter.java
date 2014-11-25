@@ -19,8 +19,8 @@ import java.util.List;
 /**
  * Created by @eduardomedina on 23/08/2014.
  */
-public class SpeakerAdapter extends ArrayAdapter<SpeakerEntity> {
-
+public class SpeakerAdapter extends ArrayAdapter<SpeakerEntity>
+{
     private Context context;
     private List<SpeakerEntity> data;
     public SpeakerAdapter(Context context, int resource, List<SpeakerEntity> objects) {
@@ -47,14 +47,12 @@ public class SpeakerAdapter extends ArrayAdapter<SpeakerEntity> {
         SpeakerEntity entry = data.get(position);
         if(entry != null)
         {
-            //Bitmap bm= BitmapFactory.decodeResource(context.getResources(), entry.getImg());
             Bitmap bm= BitmapFactory.decodeResource(context.getResources(), R.drawable.default_user);
             Bitmap aux= ImageUtils.getCircularBitmap(bm);
 
             ViewHolder holder = (ViewHolder)v.getTag();
             holder.tviName.setText(entry.getName());
             holder.tviSkills.setText(entry.getSkills());
-          //  holder.iviUser.setImageResource(entry.getImg());
             holder.iviUser.setImageBitmap(aux);
         }
 
